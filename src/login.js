@@ -1,4 +1,5 @@
 import React from "react";
+export { login } from "./login";
 import { Link } from "react-router-dom";
 import axios from "./axios";
 
@@ -12,14 +13,14 @@ export default class Registration extends React.Component {
     }
     submit() {
         axios
-            .post("/register", {
-                first: this.first,
-                last: this.last,
+            .post("/login", {
                 email: this.email,
                 password: this.password
             })
             .then(({ data }) => {
-                if (data.success) {
+                console.log(data);
+                if (data.sucess) {
+                    console.log("success");
                     location.replace("/");
                 } else {
                     this.setState({
@@ -35,18 +36,6 @@ export default class Registration extends React.Component {
                     <div className="error">Oops, You made a Boo Boo!</div>
                 )}
                 <input
-                    name="first"
-                    placeholder="First Name"
-                    type="text"
-                    onChange={e => this.handleChange(e)}
-                />
-                <input
-                    name="last"
-                    placeholder="Last Name"
-                    type="text"
-                    onChange={e => this.handleChange(e)}
-                />
-                <input
                     name="email"
                     placeholder="Email"
                     type="email"
@@ -58,8 +47,8 @@ export default class Registration extends React.Component {
                     type="password"
                     onChange={e => this.handleChange(e)}
                 />
-                <button onClick={e => this.submit(e)}>Register</button>
-                <Link to="/login">Click here to Log in!</Link>
+                <button onClick={e => this.submit(e)}>Log in!</button>
+                <Link to="/">Click here to Register</Link>
             </div>
         );
     }

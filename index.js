@@ -5,18 +5,11 @@ const db = require("./db");
 const bcrypt = require("./bcrypt");
 const body = require("body-parser");
 const cookieParser = require("cookie-parser");
-var cookieSession = require("cookie-session");
-// const csurf = require("csurf");
+const cookieSession = require("cookie-session");
+const csurf = require("csurf");
 //////////////////////////////
 app.use(compression());
 app.use(body.json());
-// app.use(csurf());
-// app.use(function(req, res, next) {
-//     res.setHeader("X-Frame_Options", "DENY");
-//     res.locals.csrfToken = req.csrfToken();
-//     res.locals.loggedin = req.session.user_id;
-//     next();
-// });
 app.use(express.static("./public"));
 app.use(cookieParser());
 app.use(
@@ -25,6 +18,11 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14
     })
 );
+app.use(csurf());
+app.use(function(req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 /////////////////////////////////
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -38,14 +36,13 @@ if (process.env.NODE_ENV != "production") {
 }
 //////////////////////////////
 app.post("/register", (req, res) => {
-    console.log(req.body);
     if (
         req.body.first == "" ||
         req.body.last == "" ||
         req.body.password == "" ||
         req.body.email == ""
     ) {
-        return;
+        res.json((res.error = true));
     } else {
         bcrypt
             .hashPassword(req.body.password)
@@ -72,7 +69,30 @@ app.post("/register", (req, res) => {
             });
     }
 });
-
+app.post("/login", (req, res) => {
+    db.getEmail(req.body.email)
+        .then(data => {
+            let user_id = data.rows[0].id;
+            bcrypt
+                .checkPassword(req.body.password, data.rows[0].password)
+                .then(doesMatch => {
+                    if (doesMatch) {
+                        req.session.userId = user_id;
+                        res.json({ sucess: true });
+                    } else {
+                        res.json({ sucess: false });
+                    }
+                })
+                .catch(err => {
+                    console.log("get pass", err);
+                    res.json({ sucess: false });
+                });
+        })
+        .catch(err => {
+            res.json({ sucess: false });
+            console.log("err in db.getEmail", err);
+        });
+});
 //////////////////////////////
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
@@ -88,7 +108,7 @@ app.get("*", function(req, res) {
         res.sendFile(__dirname + "/index.html");
     }
 });
-
+////////////////////////////////
 app.listen(8080, function() {
     console.log("I'm listening.");
 });

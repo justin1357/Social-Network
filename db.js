@@ -16,3 +16,9 @@ module.exports.register = function register(
         [firstname, lastname, email, password]
     );
 };
+
+module.exports.getEmail = function getEmail(email) {
+    return db.query(`SELECT password, id FROM social WHERE email = $1`, [
+        email
+    ]);
+};
