@@ -7,6 +7,7 @@ const body = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
+const s3 = require("./s3");
 //////////////////////////////
 app.use(compression());
 app.use(body.json());
@@ -34,6 +35,34 @@ if (process.env.NODE_ENV != "production") {
 } else {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
+// function requireLoggedInUser(req, res, next) {
+//     if (!req.session.userId) {
+//         res.sendStatus(403);
+//     } else {
+//         next();
+//     }
+// }
+//////////////////////////////
+var multer = require("multer");
+var uidSafe = require("uid-safe");
+var path = require("path");
+
+var diskStorage = multer.diskStorage({
+    destination: function(req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function(req, file, callback) {
+        uidSafe(24).then(function(uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    }
+});
+var uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152
+    }
+});
 //////////////////////////////
 app.post("/register", (req, res) => {
     if (
@@ -56,7 +85,7 @@ app.post("/register", (req, res) => {
                     )
                     .then(data => {
                         req.session.userId = data.rows[0].id;
-                        res.json((data.success = true));
+                        res.json({ success: true });
                     })
                     .catch(err => {
                         console.log("err in register", err);
@@ -92,6 +121,28 @@ app.post("/login", (req, res) => {
             res.json({ sucess: false });
             console.log("err in db.getEmail", err);
         });
+});
+app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
+    let url =
+        "https://s3.amazonaws.com/image-bucket-imageboard/" + req.file.filename;
+    if (req.file) {
+        db.uploadProfilePic(url, req.session.userId)
+            .then(data => {
+                res.json(data.rows);
+            })
+            .catch(err => {
+                console.log("err in uploadProfilePic", err);
+            });
+    } else {
+        res.json({
+            success: false
+        });
+    }
+});
+app.get("/user", (req, res) => {
+    db.getUser(req.session.userId).then(data => {
+        res.json(data);
+    });
 });
 //////////////////////////////
 app.get("/welcome", (req, res) => {

@@ -26,6 +26,9 @@ export default class Registration extends React.Component {
                         error: true
                     });
                 }
+            })
+            .catch(err => {
+                console.log("err in submit, registration", err);
             });
     }
     render() {
@@ -59,6 +62,7 @@ export default class Registration extends React.Component {
                     onChange={e => this.handleChange(e)}
                 />
                 <button onClick={e => this.submit(e)}>Register</button>
+
                 <Link to="/login">Click here to Log in!</Link>
             </div>
         );
