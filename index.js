@@ -139,10 +139,23 @@ app.post("/upload", uploader.single("file"), s3.upload, function(req, res) {
         });
     }
 });
+app.post("/uploadBio", (req, res) => {
+    db.uploadBio(req.body.text, req.session.userId)
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            console.log("err in uploadBio", err);
+        });
+});
 app.get("/user", (req, res) => {
-    db.getUser(req.session.userId).then(data => {
-        res.json(data);
-    });
+    db.getUser(req.session.userId)
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            console.log("err in getUser", err);
+        });
 });
 //////////////////////////////
 app.get("/welcome", (req, res) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "./axios";
 import Uploader from "./uploader";
-import ProfilePic from "./profilepic";
+import Profile from "./profile";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -12,6 +12,7 @@ export default class App extends React.Component {
         this.showUploader = this.showUploader.bind(this);
         this.closeUploader = this.closeUploader.bind(this);
         this.setImage = this.setImage.bind(this);
+        this.setBio = this.setBio.bind(this);
     }
     componentDidMount() {
         axios.get("/user").then(data => {
@@ -31,8 +32,12 @@ export default class App extends React.Component {
     }
     setImage(image) {
         this.setState({
-            image: image,
-            uploaderIsVisible: false
+            image: image
+        });
+    }
+    setBio(bio) {
+        this.setState({
+            bio: bio
         });
     }
     render() {
@@ -42,11 +47,14 @@ export default class App extends React.Component {
             return (
                 <div>
                     <img src="/nasa-logo.jpg" alt="nasa logo" />
-                    <ProfilePic
-                        image={this.state.image}
+                    <Profile
+                        id={this.state.id}
                         first={this.state.first}
                         last={this.state.last}
-                        uploader={this.showUploader}
+                        image={this.state.image}
+                        showUploader={this.showUploader}
+                        bio={this.state.bio}
+                        setBio={this.setBio}
                     />
                     {this.state.uploaderIsVisible && (
                         <Uploader

@@ -13,6 +13,7 @@ export default function Uploader(props) {
                 name="file"
                 className="inputfile"
                 onChange={e => {
+                    props.closeUploader();
                     const fd = new FormData();
                     fd.append("file", e.target.files[0]);
                     axios
