@@ -11,6 +11,7 @@ export default function BioEditor(props) {
                 onChange={() => {
                     let val = document.getElementById("textarea").value;
                     props.textValue(val);
+                    props.setBio(val);
                 }}
             />
             <button

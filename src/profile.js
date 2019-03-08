@@ -1,5 +1,5 @@
 import React from "react";
-import ProfilePic from "./profilepic";
+
 import BioEditor from "./bioeditor";
 
 export default class Profile extends React.Component {
@@ -29,13 +29,6 @@ export default class Profile extends React.Component {
         const image = this.props.image || "/default.jpg";
         return (
             <div>
-                <ProfilePic
-                    id={this.props.id}
-                    first={this.props.first}
-                    last={this.props.last}
-                    image={this.props.image}
-                    showUploader={this.props.showUploader}
-                />
                 <img
                     src={image}
                     alt={`${this.props.first} ${this.props.last}`}
@@ -46,7 +39,7 @@ export default class Profile extends React.Component {
                 </p>
                 <p>{this.props.bio}</p>
                 <a href="javascript:0" onClick={this.showBioEditor}>
-                    Add Your Bio now!
+                    Edit Your Bio!
                 </a>
                 {this.state.editorIsVisible && (
                     <BioEditor

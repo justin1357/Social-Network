@@ -2,6 +2,7 @@ import React from "react";
 import axios from "./axios";
 import Uploader from "./uploader";
 import Profile from "./profile";
+import ProfilePic from "./profilepic";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -47,6 +48,13 @@ export default class App extends React.Component {
             return (
                 <div>
                     <img src="/nasa-logo.jpg" alt="nasa logo" />
+                    <ProfilePic
+                        id={this.state.id}
+                        first={this.state.first}
+                        last={this.state.last}
+                        image={this.state.image}
+                        showUploader={this.showUploader}
+                    />
                     <Profile
                         id={this.state.id}
                         first={this.state.first}
