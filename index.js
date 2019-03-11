@@ -157,6 +157,19 @@ app.get("/user", (req, res) => {
             console.log("err in getUser", err);
         });
 });
+app.get(`/api-user/:id`, (req, res) => {
+    if (req.session.userId == req.params.id) {
+        res.json({ success: false });
+    } else {
+        db.getUser(req.params.id)
+            .then(data => {
+                res.json(data);
+            })
+            .catch(err => {
+                console.log("an err in other user get", err);
+            });
+    }
+});
 //////////////////////////////
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
