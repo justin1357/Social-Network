@@ -39,7 +39,8 @@ export default class App extends React.Component {
     }
     setBio(bio) {
         this.setState({
-            bio: bio
+            bio: bio,
+            bioIsNot: false
         });
     }
     render() {

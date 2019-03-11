@@ -9,11 +9,18 @@ export default class Profile extends React.Component {
         this.showBioEditor = this.showBioEditor.bind(this);
         this.textValue = this.textValue.bind(this);
         this.closeBioEditor = this.closeBioEditor.bind(this);
+        console.log(this.props);
     }
     showBioEditor() {
-        this.setState({
-            editorIsVisible: true
-        });
+        if (this.state.editorIsVisible) {
+            this.setState({
+                editorIsVisible: false
+            });
+        } else {
+            this.setState({
+                editorIsVisible: true
+            });
+        }
     }
     closeBioEditor() {
         this.setState({
@@ -38,9 +45,15 @@ export default class Profile extends React.Component {
                     {this.props.first} {this.props.last}
                 </p>
                 <p>{this.props.bio}</p>
-                <a href="javascript:0" onClick={this.showBioEditor}>
-                    Edit Your Bio!
-                </a>
+                {this.props.bio ? (
+                    <a href="javascript:0" onClick={this.showBioEditor}>
+                        Edit Your Bio!
+                    </a>
+                ) : (
+                    <a href="javascript:0" onClick={this.showBioEditor}>
+                        Add Your Bio!
+                    </a>
+                )}
                 {this.state.editorIsVisible && (
                     <BioEditor
                         id={this.props.id}
