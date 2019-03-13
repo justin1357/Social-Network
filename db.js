@@ -38,3 +38,41 @@ module.exports.uploadBio = function uploadBio(text, id) {
         [text, id]
     );
 };
+
+module.exports.getStatus = function getStatus(myId, otherUserId) {
+    return db.query(
+        `SELECT * FROM friends WHERE (receiver = $1 AND sender = $2)
+        OR (receiver = $2 AND sender = $1)`,
+        [myId, otherUserId]
+    );
+};
+
+module.exports.sendFriendRequest = function sendFriendRequest(
+    myId,
+    otherUserId
+) {
+    return db.query(`INSERT INTO friends( sender, receiver) VALUES ($1, $2)`, [
+        myId,
+        otherUserId
+    ]);
+};
+
+module.exports.deleteFriendRequest = function deleteFriendRequest(
+    myId,
+    otherUserId
+) {
+    return db.query(
+        `DELETE FROM friends WHERE (sender = $1 AND receiver = $2) OR (receiver = $1 AND sender = $2)`,
+        [myId, otherUserId]
+    );
+};
+
+module.exports.acceptFriendRequest = function acceptFriendRequest(
+    myId,
+    otherUserId
+) {
+    return db.query(
+        `UPDATE friends SET accepted = true WHERE (sender = $2 AND receiver = $1)`,
+        [myId, otherUserId]
+    );
+};

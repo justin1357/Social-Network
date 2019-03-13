@@ -49,14 +49,20 @@ export default class App extends React.Component {
         } else {
             return (
                 <div>
-                    <img src="/nasa-logo.jpg" alt="nasa logo" />
-                    <ProfilePic
-                        id={this.state.id}
-                        first={this.state.first}
-                        last={this.state.last}
-                        image={this.state.image}
-                        showUploader={this.showUploader}
-                    />
+                    <div className="nav-bar">
+                        <img
+                            src="/nasa-logo.jpg"
+                            alt="nasa logo"
+                            className="logo"
+                        />
+                        <ProfilePic
+                            id={this.state.id}
+                            first={this.state.first}
+                            last={this.state.last}
+                            image={this.state.image}
+                            showUploader={this.showUploader}
+                        />
+                    </div>
                     <BrowserRouter>
                         <div>
                             <Route

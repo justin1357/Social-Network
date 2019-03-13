@@ -36,24 +36,35 @@ export default class Profile extends React.Component {
         const image = this.props.image || "/default.jpg";
         return (
             <div>
-                <img
-                    src={image}
-                    alt={`${this.props.first} ${this.props.last}`}
-                    className="main-profile-pic"
-                />
-                <p>
-                    {this.props.first} {this.props.last}
-                </p>
-                <p>{this.props.bio}</p>
-                {this.props.bio ? (
-                    <a href="javascript:0" onClick={this.showBioEditor}>
-                        Edit Your Bio!
-                    </a>
-                ) : (
-                    <a href="javascript:0" onClick={this.showBioEditor}>
-                        Add Your Bio!
-                    </a>
-                )}
+                <div className="image">
+                    <img
+                        src={image}
+                        alt={`${this.props.first} ${this.props.last}`}
+                        className="main-profile-pic"
+                    />
+                </div>
+                <div className="info-container">
+                    <p className="name">
+                        {this.props.first} {this.props.last}
+                    </p>
+                    <p className="bio">{this.props.bio}</p>
+
+                    {this.props.bio ? (
+                        <button
+                            href="javascript:0"
+                            onClick={this.showBioEditor}
+                        >
+                            Edit Your Bio!
+                        </button>
+                    ) : (
+                        <button
+                            href="javascript:0"
+                            onClick={this.showBioEditor}
+                        >
+                            Add Your Bio!
+                        </button>
+                    )}
+                </div>
                 {this.state.editorIsVisible && (
                     <BioEditor
                         id={this.props.id}

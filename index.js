@@ -170,6 +170,42 @@ app.get(`/api-user/:id`, (req, res) => {
             });
     }
 });
+app.get("/get-status/:id", (req, res) => {
+    db.getStatus(req.session.userId, req.params.id)
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            console.log("err in getStatus", err);
+        });
+});
+app.post("/send-friend-request", (req, res) => {
+    db.sendFriendRequest(req.session.userId, req.body.Id)
+        .then(() => {
+            res.json({ success: true });
+        })
+        .catch(err => {
+            console.log("errr in sendFriendRequest", err);
+        });
+});
+app.post("/delete-friend-request", (req, res) => {
+    db.deleteFriendRequest(req.session.userId, req.body.Id)
+        .then(() => {
+            res.json({ success: true });
+        })
+        .catch(err => {
+            console.log("errr in deleteFriendRequest", err);
+        });
+});
+app.post("/accept-friend-request", (req, res) => {
+    db.acceptFriendRequest(req.session.userId, req.body.Id)
+        .then(() => {
+            res.json({ success: true });
+        })
+        .catch(err => {
+            console.log("errr in deleteFriendRequest", err);
+        });
+});
 //////////////////////////////
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
