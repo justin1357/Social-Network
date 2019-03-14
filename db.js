@@ -76,3 +76,15 @@ module.exports.acceptFriendRequest = function acceptFriendRequest(
         [myId, otherUserId]
     );
 };
+
+module.exports.getFriends = function getFriends(id) {
+    return db.query(
+        `SELECT users.id, first, last, image, accepted
+    FROM friends
+    JOIN users
+    ON (accepted = false AND receiver = $1 AND sender = users.id)
+    OR (accepted = true AND receiver = $1 AND sender = users.id)
+    OR (accepted = true AND sender = $1 AND receiver = users.id)`,
+        [id]
+    );
+};

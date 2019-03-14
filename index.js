@@ -191,19 +191,28 @@ app.post("/send-friend-request", (req, res) => {
 app.post("/delete-friend-request", (req, res) => {
     db.deleteFriendRequest(req.session.userId, req.body.Id)
         .then(() => {
-            res.json({ success: true });
+            res.json({ success: true, id: req.body.Id });
         })
         .catch(err => {
-            console.log("errr in deleteFriendRequest", err);
+            console.log("err in deleteFriendRequest", err);
         });
 });
 app.post("/accept-friend-request", (req, res) => {
     db.acceptFriendRequest(req.session.userId, req.body.Id)
         .then(() => {
-            res.json({ success: true });
+            res.json({ success: true, id: req.body.Id });
         })
         .catch(err => {
-            console.log("errr in deleteFriendRequest", err);
+            console.log("err in deleteFriendRequest", err);
+        });
+});
+app.get("/get-all-friends", (req, res) => {
+    db.getFriends(req.session.userId)
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            console.log("Err in get-all-friends", err);
         });
 });
 //////////////////////////////

@@ -2,6 +2,7 @@ import React from "react";
 import axios from "./axios";
 import Uploader from "./uploader";
 import Profile from "./profile";
+import Friends from "./friends";
 import ProfilePic from "./profilepic";
 import OtherProfile from "./otherprofile";
 import { BrowserRouter, Route } from "react-router-dom";
@@ -81,6 +82,7 @@ export default class App extends React.Component {
                                 )}
                             />
                             <Route path="/user/:id" component={OtherProfile} />
+                            <Route path="/friends" component={Friends} />
                         </div>
                     </BrowserRouter>
                     {this.state.uploaderIsVisible && (

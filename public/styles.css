@@ -1,6 +1,11 @@
 * {
     box-sizing: border-box;
 }
+.friends {
+    display: inline-block;
+    max-width: 200px;
+    text-align: center;
+}
 .logo {
     max-width: 200px;
     max-height: 100px;
