@@ -3,7 +3,7 @@ import axios from "./axios";
 import Uploader from "./uploader";
 import Profile from "./profile";
 import Friends from "./friends";
-import ProfilePic from "./profilepic";
+import Navbar from "./navbar";
 import OtherProfile from "./otherprofile";
 import { BrowserRouter, Route } from "react-router-dom";
 
@@ -50,22 +50,15 @@ export default class App extends React.Component {
         } else {
             return (
                 <div>
-                    <div className="nav-bar">
-                        <img
-                            src="/nasa-logo.jpg"
-                            alt="nasa logo"
-                            className="logo"
-                        />
-                        <ProfilePic
-                            id={this.state.id}
-                            first={this.state.first}
-                            last={this.state.last}
-                            image={this.state.image}
-                            showUploader={this.showUploader}
-                        />
-                    </div>
                     <BrowserRouter>
                         <div>
+                            <Navbar
+                                id={this.state.id}
+                                first={this.state.first}
+                                last={this.state.last}
+                                image={this.state.image}
+                                showUploader={this.showUploader}
+                            />
                             <Route
                                 exact
                                 path="/"
@@ -81,6 +74,7 @@ export default class App extends React.Component {
                                     />
                                 )}
                             />
+
                             <Route path="/user/:id" component={OtherProfile} />
                             <Route path="/friends" component={Friends} />
                         </div>

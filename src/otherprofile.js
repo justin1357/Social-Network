@@ -1,40 +1,49 @@
 import React from "react";
-import axios from "./axios";
 import FriendButton from "./friendbutton";
+import { connect } from "react-redux";
+import { otherProfile } from "./actions";
 
-export default class OtherProfile extends React.Component {
+class OtherProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
     }
 
     componentDidMount() {
-        axios.get(`/api-user/${this.props.match.params.id}`).then(data => {
-            if (data.data.success == false) {
-                this.props.history.push("/");
-            } else {
-                this.setState(data.data.rows[0]);
-            }
-        });
+        this.props.dispatch(otherProfile(this.props.match.params.id));
     }
     render() {
-        const image = this.state.image || "/default.jpg";
-        return (
-            <div>
-                <img
-                    src={image}
-                    alt={`${this.state.first} ${this.state.last}`}
-                    className="main-profile-pic"
-                />
-                <div className="info-container">
-                    <p className="name">
-                        {this.state.first} {this.state.last}
-                    </p>
-                    <p className="bio"> {this.state.bio}</p>
+        if (!this.props.user) {
+            return null;
+        } else {
+            const image = this.props.user.image || "/default.jpg";
+            return (
+                <div>
+                    <img
+                        src={image}
+                        alt={`${this.state.first} ${this.state.last}`}
+                        className="main-profile-pic"
+                    />
+                    <div className="info-container">
+                        <p className="name">
+                            {this.props.user.first} {this.props.user.last}
+                        </p>
+                        <p className="bio"> {this.props.user.bio}</p>
 
-                    <FriendButton otherUserId={this.props.match.params.id} />
+                        <FriendButton
+                            otherUserId={this.props.match.params.id}
+                        />
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        user: state.user
+    };
+};
+
+export default connect(mapStateToProps)(OtherProfile);

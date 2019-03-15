@@ -25,3 +25,11 @@ export async function getFriends() {
         friends: data.rows
     };
 }
+
+export async function otherProfile(id) {
+    const { data } = await axios.get(`/api-user/${id}`);
+    return {
+        type: "GET_OTHERPROFILE",
+        user: data.rows[0]
+    };
+}

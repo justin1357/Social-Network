@@ -12,6 +12,7 @@ class Friends extends React.Component {
         this.props.dispatch(getFriends());
     }
     render() {
+        // console.log("friends render", this.props);
         const { friends, pending } = this.props;
         if (!friends) {
             return null;
@@ -21,6 +22,7 @@ class Friends extends React.Component {
         const currentFriends = (
             <div>
                 {friends.map(friend => {
+                    console.log(friend);
                     if (friend.accepted == null) {
                         return;
                     }
@@ -73,7 +75,6 @@ class Friends extends React.Component {
                 })}
             </div>
         );
-        console.log("currentfriends", currentFriends);
         return (
             <div>
                 <h3>Current Friends</h3>
@@ -88,7 +89,6 @@ class Friends extends React.Component {
 }
 
 const mapStateToProps = state => {
-    console.log("state, maptoprops", state);
     return {
         pending:
             state.friends &&

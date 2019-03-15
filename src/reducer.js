@@ -34,6 +34,12 @@ export default function reducer(state = {}, action) {
             })
         });
     }
+    if (action.type == "GET_OTHERPROFILE") {
+        state = Object.assign({}, state, {
+            user: action.user
+        });
+    }
+
     console.log("State in reducer", state);
     return state;
 }

@@ -10,7 +10,19 @@
     max-width: 200px;
     max-height: 100px;
 }
+.form-control {
+    max-width: 400px;
+}
 .profile-pic {
+    max-width: 150px;
+    max-height: 50px;
+    height: auto;
+    float: right;
+}
+.friends-link {
+    text-decoration: none;
+}
+.nav-right {
     float: right;
     max-width: 150px;
     max-height: 100px;
@@ -56,11 +68,10 @@ button:hover {
 .image {
     display: inline-block;
 }
-.info-container {
-    padding-left: 20px;
-    display: inline-block;
-    position: relative;
-    bottom: 30px;
+.card-img-top {
+    max-width: 150px;
+}
+.card {
 }
 .nav-bar {
     border-bottom: solid black 1px;

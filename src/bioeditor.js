@@ -4,17 +4,18 @@ import axios from "./axios";
 export default function BioEditor(props) {
     return (
         <div className="bio-editor">
-            <textarea
-                id="textarea"
-                rows="6"
-                cols="50"
-                onChange={() => {
-                    let val = document.getElementById("textarea").value;
-                    props.textValue(val);
-                }}
-            />
+            <div className="input-group">
+                <textarea
+                    className="form-control"
+                    id="textarea"
+                    onChange={() => {
+                        let val = document.getElementById("textarea").value;
+                        props.textValue(val);
+                    }}
+                />
+            </div>
             <button
-                className="save-button"
+                className="btn btn-primary"
                 onClick={() => {
                     props.closeBioEditor();
                     axios
