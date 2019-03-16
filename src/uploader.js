@@ -2,6 +2,7 @@ import React from "react";
 import axios from "./axios";
 
 export default function Uploader(props) {
+    console.log(props);
     return (
         <div className="uploader">
             <a href="javascript:0" id="X">

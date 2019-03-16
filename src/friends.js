@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getFriends, terminateFriend, acceptFriend } from "./actions";
+import { Button } from "react-bootstrap";
 
 class Friends extends React.Component {
     constructor() {
@@ -35,15 +36,17 @@ class Friends extends React.Component {
                             <p>
                                 {friend.first} {friend.last}
                             </p>
-                            <button
+                            <Button
+                                variant="success"
                                 onClick={() => {
                                     this.props.dispatch(
                                         terminateFriend(friend.id)
                                     );
                                 }}
                             >
+                                {" "}
                                 Terminate Friend
-                            </button>
+                            </Button>
                         </div>
                     );
                 })}
@@ -61,7 +64,8 @@ class Friends extends React.Component {
                             <p>
                                 {pender.first} {pender.last}
                             </p>
-                            <button
+                            <Button
+                                variant="success"
                                 onClick={() => {
                                     this.props.dispatch(
                                         acceptFriend(pender.id)
@@ -69,14 +73,14 @@ class Friends extends React.Component {
                                 }}
                             >
                                 Accept Friend Request
-                            </button>
+                            </Button>
                         </div>
                     );
                 })}
             </div>
         );
         return (
-            <div>
+            <div className="container">
                 <h3>Current Friends</h3>
                 {!friends.length && <div>You have no Friends</div>}
                 {!!friends.length && currentFriends}

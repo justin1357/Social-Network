@@ -1,5 +1,23 @@
 * {
     box-sizing: border-box;
+    color: white;
+}
+body {
+    background-image: url("/public/../adult-american-black-and-white-935870.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+    background-attachment: fixed;
+    background-position: center center;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+}
+input {
+    color: black;
+}
+div.friends {
+    margin: 2%;
 }
 .friends {
     display: inline-block;
@@ -17,17 +35,12 @@
     max-width: 150px;
     max-height: 50px;
     height: auto;
-    float: right;
 }
 .friends-link {
     text-decoration: none;
+    margin-left: 20%;
 }
-.nav-right {
-    float: right;
-    max-width: 150px;
-    max-height: 100px;
-    height: auto;
-}
+
 .uploader {
     width: 300px;
     height: 200px;
@@ -37,10 +50,15 @@
     left: 40%;
     text-align: center;
     background-color: #4caf50;
+    opacity: 0.8;
 }
 #X {
     text-decoration: none;
     color: black;
+}
+#navbar {
+    background-color: #c5aa6a;
+    opacity: 0.7;
 }
 button {
     background-color: #4caf50;
@@ -68,13 +86,15 @@ button:hover {
 .image {
     display: inline-block;
 }
+.jimbo {
+    opacity: 0.8;
+}
+
 .card-img-top {
     max-width: 150px;
 }
-.card {
-}
-.nav-bar {
-    border-bottom: solid black 1px;
+.nav {
+    background: rgba(0, 0, 0, 0.5);
 }
 .bio-editor {
     display: inline-block;

@@ -18,7 +18,7 @@ class OtherProfile extends React.Component {
         } else {
             const image = this.props.user.image || "/default.jpg";
             return (
-                <div>
+                <div className="container">
                     <img
                         src={image}
                         alt={`${this.state.first} ${this.state.last}`}

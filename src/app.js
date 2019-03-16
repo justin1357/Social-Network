@@ -1,10 +1,11 @@
 import React from "react";
 import axios from "./axios";
-import Uploader from "./uploader";
 import Profile from "./profile";
 import Friends from "./friends";
-import Navbar from "./navbar";
+import CustomNavbar from "./navbar";
 import OtherProfile from "./otherprofile";
+import Jumbotron from "react-bootstrap/Jumbotron";
+import { Container } from "react-bootstrap";
 import { BrowserRouter, Route } from "react-router-dom";
 
 export default class App extends React.Component {
@@ -13,8 +14,6 @@ export default class App extends React.Component {
         this.state = {
             uploaderIsVisible: false
         };
-        this.showUploader = this.showUploader.bind(this);
-        this.closeUploader = this.closeUploader.bind(this);
         this.setImage = this.setImage.bind(this);
         this.setBio = this.setBio.bind(this);
     }
@@ -23,16 +22,7 @@ export default class App extends React.Component {
             this.setState(data.data.rows[0]);
         });
     }
-    showUploader() {
-        this.setState(() => {
-            return { uploaderIsVisible: true };
-        });
-    }
-    closeUploader() {
-        this.setState(() => {
-            return { uploaderIsVisible: false };
-        });
-    }
+
     setImage(image) {
         this.setState({
             image: image
@@ -52,13 +42,28 @@ export default class App extends React.Component {
                 <div>
                     <BrowserRouter>
                         <div>
-                            <Navbar
+                            <CustomNavbar
                                 id={this.state.id}
                                 first={this.state.first}
                                 last={this.state.last}
                                 image={this.state.image}
                                 showUploader={this.showUploader}
                             />
+                            <Jumbotron className="container jimbo">
+                                <Container>
+                                    <div id="jimbo">
+                                        <h1 className="text-dark jimbotext">
+                                            Social Network For you!!!
+                                        </h1>
+                                        <p className="text-dark jimbotext">
+                                            From the creators of the Petition
+                                            Project, we give you our newest
+                                            creation. A social network for React
+                                            education.
+                                        </p>
+                                    </div>
+                                </Container>
+                            </Jumbotron>
                             <Route
                                 exact
                                 path="/"
@@ -79,12 +84,6 @@ export default class App extends React.Component {
                             <Route path="/friends" component={Friends} />
                         </div>
                     </BrowserRouter>
-                    {this.state.uploaderIsVisible && (
-                        <Uploader
-                            setImage={this.setImage}
-                            closeUploader={this.closeUploader}
-                        />
-                    )}
                 </div>
             );
         }

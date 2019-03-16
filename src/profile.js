@@ -1,5 +1,5 @@
 import React from "react";
-
+import Uploader from "./uploader";
 import BioEditor from "./bioeditor";
 
 export default class Profile extends React.Component {
@@ -9,7 +9,8 @@ export default class Profile extends React.Component {
         this.showBioEditor = this.showBioEditor.bind(this);
         this.textValue = this.textValue.bind(this);
         this.closeBioEditor = this.closeBioEditor.bind(this);
-        console.log(this.props);
+        this.showUploader = this.showUploader.bind(this);
+        this.closeUploader = this.closeUploader.bind(this);
     }
     showBioEditor() {
         if (this.state.editorIsVisible) {
@@ -21,6 +22,17 @@ export default class Profile extends React.Component {
                 editorIsVisible: true
             });
         }
+    }
+    showUploader() {
+        this.setState(() => {
+            return { uploaderIsVisible: true };
+        });
+        console.log(this.state);
+    }
+    closeUploader() {
+        this.setState(() => {
+            return { uploaderIsVisible: false };
+        });
     }
     closeBioEditor() {
         this.setState({
@@ -35,8 +47,13 @@ export default class Profile extends React.Component {
     render() {
         const image = this.props.image || "/default.jpg";
         return (
-            <div className="card">
-                <img src={image} className="card-img-top" alt="..." />
+            <div className="card container border-0 mt-5 bg-transparent">
+                <img
+                    src={image}
+                    className="card-img-top ml-3"
+                    alt="..."
+                    onClick={this.showUploader}
+                />
                 <div className="card-body">
                     <h5 className="card-title">
                         {this.props.first} {this.props.last}
@@ -50,6 +67,12 @@ export default class Profile extends React.Component {
                         Add Your Bio!
                     </button>
                 </div>
+                {this.state.uploaderIsVisible && (
+                    <Uploader
+                        setImage={this.setImage}
+                        closeUploader={this.closeUploader}
+                    />
+                )}
                 {this.state.editorIsVisible && (
                     <BioEditor
                         id={this.props.id}
