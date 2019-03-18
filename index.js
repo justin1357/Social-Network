@@ -8,17 +8,21 @@ const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const s3 = require("./s3");
+const server = require("http").Server(app);
+const io = require("socket.io")(server, { origins: "localhost:8080" });
 //////////////////////////////
 app.use(compression());
 app.use(body.json());
 app.use(express.static("./public"));
 app.use(cookieParser());
-app.use(
-    cookieSession({
-        secret: process.env.Cookie || "secret",
-        maxAge: 1000 * 60 * 60 * 24 * 14
-    })
-);
+const cookieSessionMiddleware = cookieSession({
+    secret: `I'm always angry.`,
+    maxAge: 1000 * 60 * 60 * 24 * 90
+});
+app.use(cookieSessionMiddleware);
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
 app.use(csurf());
 app.use(function(req, res, next) {
     res.cookie("mytoken", req.csrfToken());
@@ -231,6 +235,55 @@ app.get("*", function(req, res) {
     }
 });
 ////////////////////////////////
-app.listen(8080, function() {
+server.listen(8080, function() {
     console.log("I'm listening.");
+});
+const onlineUsers = {};
+io.on("connection", function(socket) {
+    console.log(`socket with the id ${socket.id} is now connected`);
+    const userId = socket.request.session.userId;
+    if (!userId) {
+        return socket.disconnect();
+    }
+    onlineUsers[socket.id] = userId;
+    const alreadyHere =
+        Object.values(onlineUsers).filter(id => id != userId).length > 1;
+    db.getOnlineUsers(Object.values(onlineUsers))
+        .then(data => {
+            console.log(data);
+            io.emit("onlineUsers", {
+                onlineUsers: data
+            });
+        })
+        .catch(err => {
+            console.log("err in getOnlineUsers", err);
+        });
+    if (!alreadyHere) {
+        db.getNewUser(userId)
+            .then(data => {
+                console.log(data);
+                socket.broadcast.emit("userJoined", {
+                    userJoined: data
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+    socket.on("disconnect", () => {
+        console.log("Disconnect", socket.id);
+        let id = onlineUsers[socket.id];
+        delete onlineUsers[socket.id];
+        const values = Object.values(onlineUsers);
+        for (var i = 0; i < values.length; i++) {
+            if (values[i] == id) {
+                console.log("User is still logged in");
+            } else {
+                io.emit("userLeft", {
+                    userLeft: id
+                });
+            }
+        }
+    });
 });

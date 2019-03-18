@@ -2,6 +2,7 @@ import React from "react";
 import axios from "./axios";
 import Profile from "./profile";
 import Friends from "./friends";
+import Online from "./online";
 import CustomNavbar from "./navbar";
 import OtherProfile from "./otherprofile";
 import Jumbotron from "react-bootstrap/Jumbotron";
@@ -82,6 +83,7 @@ export default class App extends React.Component {
 
                             <Route path="/user/:id" component={OtherProfile} />
                             <Route path="/friends" component={Friends} />
+                            <Route path="/online" component={Online} />
                         </div>
                     </BrowserRouter>
                 </div>

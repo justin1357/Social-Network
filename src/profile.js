@@ -59,13 +59,23 @@ export default class Profile extends React.Component {
                         {this.props.first} {this.props.last}
                     </h5>
                     <p className="card-text">{this.props.bio}</p>
-                    <button
-                        href="javascript:0"
-                        className="btn btn-primary"
-                        onClick={this.showBioEditor}
-                    >
-                        Add Your Bio!
-                    </button>
+                    {this.props.bio ? (
+                        <button
+                            href="javascript:0"
+                            className="btn btn-primary"
+                            onClick={this.showBioEditor}
+                        >
+                            Edit Your Bio!
+                        </button>
+                    ) : (
+                        <button
+                            href="javascript:0"
+                            className="btn btn-primary"
+                            onClick={this.showBioEditor}
+                        >
+                            Add Your Bio!
+                        </button>
+                    )}
                 </div>
                 {this.state.uploaderIsVisible && (
                     <Uploader
@@ -104,21 +114,17 @@ export default class Profile extends React.Component {
 //         </p>
 //         <p className="bio">{this.props.bio}</p>
 //
-//         {this.props.bio ? (
-//             <button
-//                 href="javascript:0"
-//                 onClick={this.showBioEditor}
-//             >
-//                 Edit Your Bio!
-//             </button>
-//         ) : (
-//             <button
-//                 href="javascript:0"
-//                 onClick={this.showBioEditor}
-//             >
-//                 Add Your Bio!
-//             </button>
-//         )}
+// {
+//     this.props.bio ? (
+//         <button href="javascript:0" onClick={this.showBioEditor}>
+//             Edit Your Bio!
+//         </button>
+//     ) : (
+//         <button href="javascript:0" onClick={this.showBioEditor}>
+//             Add Your Bio!
+//         </button>
+//     );
+// }
 //     </div>
 //     {this.state.editorIsVisible && (
 //         <BioEditor

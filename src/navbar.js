@@ -29,6 +29,12 @@ export default function CustomNavbar(props) {
                     >
                         Friends
                     </Link>
+                    <Link
+                        to="/online"
+                        className="nav-item nav-link friends-link"
+                    >
+                        Online
+                    </Link>
                     <Link to="/" className="nav-item nav-link friends-link">
                         Chat
                     </Link>
@@ -37,28 +43,3 @@ export default function CustomNavbar(props) {
         </Navbar>
     );
 }
-
-// <nav
-//     className="navbar navbar-expand-lg navbar-light bg-light"
-//     id="navbar"
-// >
-//     <div className="navbar-brand" href="#">
-
-//     </div>
-// <Link to="/friends" className="nav-item nav-link friends-link">
-//     Friends
-// </Link>
-// </nav>
-// <div className="nav-bar">
-//     <img src="/nasa-logo.jpg" alt="nasa logo" className="logo" />
-//     <div className="nav-right">
-//
-// <ProfilePic
-//     id={props.id}
-//     first={props.first}
-//     last={props.last}
-//     image={props.image}
-//     showUploader={props.showUploader}
-// />
-//     </div>
-// </div>

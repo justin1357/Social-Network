@@ -88,3 +88,16 @@ module.exports.getFriends = function getFriends(id) {
         [id]
     );
 };
+
+module.exports.getOnlineUsers = function getOnlineUsers(id) {
+    return db.query(
+        `SELECT image, first, last, id FROM users WHERE id=ANY($1)`,
+        [id]
+    );
+};
+
+module.exports.getNewUser = function getNewUser(id) {
+    return db.query(`SELECT image, first, last, id FROM users WHERE id=($1)`, [
+        id
+    ]);
+};

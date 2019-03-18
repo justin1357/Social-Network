@@ -33,3 +33,25 @@ export async function otherProfile(id) {
         user: data.rows[0]
     };
 }
+
+export async function onlineUsers(data) {
+    console.log("data from actions file", data.onlineUsers.rows);
+    return {
+        type: "ONLINE_USERS",
+        onlineUsers: data.onlineUsers.rows
+    };
+}
+
+export async function userJoined(data) {
+    return {
+        type: "USER_JOINED",
+        onlineUsers: data
+    };
+}
+
+export async function userLeft(data) {
+    return {
+        type: "USER_LEFT",
+        onlineUsers: data
+    };
+}

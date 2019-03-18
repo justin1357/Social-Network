@@ -44,7 +44,6 @@ class Friends extends React.Component {
                                     );
                                 }}
                             >
-                                {" "}
                                 Terminate Friend
                             </Button>
                         </div>

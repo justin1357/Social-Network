@@ -39,6 +39,24 @@ export default function reducer(state = {}, action) {
             user: action.user
         });
     }
+    if (action.type == "ONLINE_USERS") {
+        console.log("action", action);
+        state = Object.assign({}, state, {
+            user: action.onlineUsers
+        });
+    }
+    if (action.type == "USER_JOINED") {
+        console.log("action", action);
+        state = Object.assign({}, state, {
+            user: action.onlineUsers
+        });
+    }
+    if (action.type == "USER_LEFT") {
+        console.log("action", action.onlineUsers.onlineUsers);
+        state = Object.assign({}, state, {
+            user: action.onlineUsers.onlineUsers
+        });
+    }
 
     console.log("State in reducer", state);
     return state;
