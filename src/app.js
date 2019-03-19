@@ -5,6 +5,7 @@ import Friends from "./friends";
 import Online from "./online";
 import CustomNavbar from "./navbar";
 import OtherProfile from "./otherprofile";
+import Chat from "./chat";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import { Container } from "react-bootstrap";
 import { BrowserRouter, Route } from "react-router-dom";
@@ -84,6 +85,7 @@ export default class App extends React.Component {
                             <Route path="/user/:id" component={OtherProfile} />
                             <Route path="/friends" component={Friends} />
                             <Route path="/online" component={Online} />
+                            <Route path="/chat" component={Chat} />
                         </div>
                     </BrowserRouter>
                 </div>

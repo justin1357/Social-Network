@@ -238,36 +238,39 @@ app.get("*", function(req, res) {
 server.listen(8080, function() {
     console.log("I'm listening.");
 });
+///////////////////////////////
 const onlineUsers = {};
 io.on("connection", function(socket) {
     console.log(`socket with the id ${socket.id} is now connected`);
     const userId = socket.request.session.userId;
+    onlineUsers[socket.id] = userId;
     if (!userId) {
         return socket.disconnect();
     }
-    onlineUsers[socket.id] = userId;
-    const alreadyHere =
+
+    let alreadyHere =
         Object.values(onlineUsers).filter(id => id != userId).length > 1;
+
     db.getOnlineUsers(Object.values(onlineUsers))
         .then(data => {
-            console.log(data);
-            io.emit("onlineUsers", {
+            // console.log(data);
+            socket.emit("onlineUsers", {
                 onlineUsers: data
             });
         })
         .catch(err => {
             console.log("err in getOnlineUsers", err);
         });
+
     if (!alreadyHere) {
         db.getNewUser(userId)
             .then(data => {
-                console.log(data);
                 socket.broadcast.emit("userJoined", {
-                    userJoined: data
+                    onlineUsers: data.rows[0]
                 });
             })
             .catch(err => {
-                console.log(err);
+                console.log("err in getnew user", err);
             });
     }
 
@@ -275,6 +278,7 @@ io.on("connection", function(socket) {
         console.log("Disconnect", socket.id);
         let id = onlineUsers[socket.id];
         delete onlineUsers[socket.id];
+        console.log("online users after delete", onlineUsers);
         const values = Object.values(onlineUsers);
         for (var i = 0; i < values.length; i++) {
             if (values[i] == id) {
@@ -286,4 +290,39 @@ io.on("connection", function(socket) {
             }
         }
     });
+
+    console.log(onlineUsers);
+    socket.on("newChatMessage", data => {
+        console.log("data from message", data, userId);
+        const message = {};
+        db.addNewMessage(data, userId)
+            .then(data => {
+                console.log("success");
+                message.concat(data.rows);
+                console.log(message);
+            })
+            .catch(err => {
+                console.log("err in new message", err);
+            });
+        db.getUser(userId)
+            .then(data => {
+                // console.log(data);
+            })
+            .catch(err => {
+                console.log("err in user info", err);
+            });
+
+        //db.query to get info about person who sent message
+        //push message and info about the message to array of messages
+    });
+    db.getLastMessages()
+        .then(data => {
+            console.log(data);
+            socket.emit("messages", {
+                messages: data.rows
+            });
+        })
+        .catch(err => {
+            console.log("err in getlast massegase", err);
+        });
 });

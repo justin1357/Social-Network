@@ -17,9 +17,8 @@ class Online extends React.Component {
         const onlineUsers = (
             <div>
                 {online.map(user => {
-                    console.log("user in map", user);
                     return (
-                        <div key={user.id}>
+                        <div key={user.id} className="friends">
                             <img
                                 src={user.image || "/default.jpg"}
                                 className="main-profile-pic"
@@ -42,7 +41,6 @@ class Online extends React.Component {
     }
 }
 const mapStateToProps = state => {
-    console.log("state in mp2p", state);
     return {
         online: state.user
     };

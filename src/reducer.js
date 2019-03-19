@@ -40,22 +40,28 @@ export default function reducer(state = {}, action) {
         });
     }
     if (action.type == "ONLINE_USERS") {
-        console.log("action", action);
         state = Object.assign({}, state, {
             user: action.onlineUsers
         });
     }
     if (action.type == "USER_JOINED") {
-        console.log("action", action);
+        console.log("action user joined in reducer", action);
         state = Object.assign({}, state, {
-            user: action.onlineUsers
+            user:
+                state.user && state.user.concat(action.onlineUsers.onlineUsers)
         });
     }
     if (action.type == "USER_LEFT") {
-        console.log("action", action.onlineUsers.onlineUsers);
-        state = Object.assign({}, state, {
-            user: action.onlineUsers.onlineUsers
-        });
+        return {
+            ...state,
+            user: state.user.filter(user => user.id != action.userLeft)
+        };
+    }
+    if (action.type == "LAST_MESSAGES") {
+        return {
+            ...state,
+            messages: action.messages
+        };
     }
 
     console.log("State in reducer", state);

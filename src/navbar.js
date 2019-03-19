@@ -35,7 +35,7 @@ export default function CustomNavbar(props) {
                     >
                         Online
                     </Link>
-                    <Link to="/" className="nav-item nav-link friends-link">
+                    <Link to="/chat" className="nav-item nav-link friends-link">
                         Chat
                     </Link>
                 </Nav>

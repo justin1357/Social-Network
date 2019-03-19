@@ -16,6 +16,9 @@ body {
 input {
     color: black;
 }
+.chat-text {
+    color: black;
+}
 div.friends {
     margin: 2%;
 }

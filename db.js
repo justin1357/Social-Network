@@ -101,3 +101,19 @@ module.exports.getNewUser = function getNewUser(id) {
         id
     ]);
 };
+
+module.exports.addNewMessage = function addNewMessage(message, id) {
+    return db.query(
+        `INSERT INTO chat(message, sender) VALUES($1, $2) RETURNING message, id`,
+        [message, id]
+    );
+};
+
+module.exports.getLastMessages = function getLastMessages() {
+    return db.query(`SELECT users.first, users.last, users.id, chat.message, chat.created_at
+    FROM users
+    JOIN chat
+    ON (chat.sender = users.id)
+    ORDER BY chat.id DESC
+    LIMIT 10`);
+};

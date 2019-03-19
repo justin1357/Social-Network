@@ -35,7 +35,6 @@ export async function otherProfile(id) {
 }
 
 export async function onlineUsers(data) {
-    console.log("data from actions file", data.onlineUsers.rows);
     return {
         type: "ONLINE_USERS",
         onlineUsers: data.onlineUsers.rows
@@ -43,6 +42,7 @@ export async function onlineUsers(data) {
 }
 
 export async function userJoined(data) {
+    console.log("user joined in actions", data);
     return {
         type: "USER_JOINED",
         onlineUsers: data
@@ -52,6 +52,13 @@ export async function userJoined(data) {
 export async function userLeft(data) {
     return {
         type: "USER_LEFT",
-        onlineUsers: data
+        userLeft: data.userLeft
+    };
+}
+
+export async function getLastMessages(data) {
+    return {
+        type: "LAST_MESSAGES",
+        messages: data
     };
 }

@@ -1,5 +1,5 @@
 import * as io from "socket.io-client";
-import { onlineUsers, userJoined, userLeft } from "./actions";
+import { onlineUsers, userJoined, userLeft, getLastMessages } from "./actions";
 let socket;
 
 export function getSocket(store) {
@@ -16,6 +16,9 @@ export function getSocket(store) {
 
         socket.on("userLeft", data => {
             store.dispatch(userLeft(data));
+        });
+        socket.on("messages", data => {
+            store.dispatch(getLastMessages(data));
         });
     }
     return socket;
