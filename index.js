@@ -219,6 +219,17 @@ app.get("/get-all-friends", (req, res) => {
             console.log("Err in get-all-friends", err);
         });
 });
+app.post("/inc-search", (req, res) => {
+    console.log(req.body.inputValue);
+    db.incSearch(req.body.inputValue)
+        .then(data => {
+            console.log(data);
+            res.json(data.rows);
+        })
+        .catch(err => {
+            console.log("err in incSearch", err);
+        });
+});
 //////////////////////////////
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
@@ -300,11 +311,9 @@ io.on("connection", function(socket) {
             .then(data => {
                 console.log("success");
                 messageId = data.rows[0].id;
-                // console.log(messageId);
             })
             .then(() => {
                 db.getUserLastMessage(messageId).then(data => {
-                    console.log("get last message", data);
                     io.emit("newMessage", {
                         messages: data.rows[0]
                     });
@@ -320,7 +329,6 @@ io.on("connection", function(socket) {
     });
     db.getLastMessages()
         .then(data => {
-            console.log(data);
             socket.emit("messages", {
                 messages: data.rows
             });

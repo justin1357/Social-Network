@@ -110,7 +110,7 @@ module.exports.addNewMessage = function addNewMessage(message, id) {
 };
 
 module.exports.getLastMessages = function getLastMessages() {
-    return db.query(`SELECT users.first, users.last, users.id, chat.message, chat.created_at
+    return db.query(`SELECT users.first, users.last, users.id, chat.message, chat.created_at, chat.id
     FROM users
     JOIN chat
     ON (chat.sender = users.id)
@@ -120,7 +120,7 @@ module.exports.getLastMessages = function getLastMessages() {
 
 module.exports.getUserLastMessage = function getUserLastMessage(id) {
     return db.query(
-        `SELECT users.first, users.last, users.id, chat.message, chat.created_at
+        `SELECT users.first, users.last, users.id, chat.message, chat.created_at, chat.id
     FROM users
     JOIN chat
     ON (chat.sender = users.id)
@@ -128,4 +128,10 @@ module.exports.getUserLastMessage = function getUserLastMessage(id) {
     `,
         [id]
     );
+};
+
+module.exports.incSearch = function incSearch(val) {
+    return db.query(`SELECT * FROM users WHERE first ILIKE '%' || $1 || '%' `, [
+        val
+    ]);
 };

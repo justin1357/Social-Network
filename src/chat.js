@@ -8,16 +8,13 @@ class Chat extends React.Component {
             getSocket().emit("newChatMessage", e.target.value);
         }
     }
-    // componentDidMount() {
-    //     this.props.dispatch(getLastMessages());
-    // }
+    componentDidMount() {}
     componentDidUpdate() {
-        // this.chatContainer.scrollTop = "100px";
+        this.chatContainer.scrollTop = this.chatContainer.scrollHeight;
         this.chatText.value = null;
     }
 
     render() {
-        console.log("props in chat.js", this.props);
         let messages = this.props.messages;
         if (!messages) {
             return null;
@@ -25,16 +22,15 @@ class Chat extends React.Component {
 
         console.log("prop messages", messages);
         return (
-            <div className="container">
+            <div className="container chat-div">
                 <h1>Chat</h1>
                 <div
                     ref={elem => (this.chatContainer = elem)}
                     className="chat-container"
                 >
                     {messages.map(message => {
-                        console.log("message in map", message);
                         return (
-                            <div key={message.message}>
+                            <div key={message.id}>
                                 <p>
                                     {message.first} {message.last}:{" "}
                                     {message.message}
@@ -42,19 +38,18 @@ class Chat extends React.Component {
                             </div>
                         );
                     })}
+                    <textarea
+                        onKeyDown={this.handleKeyDown}
+                        ref={elem => (this.chatText = elem)}
+                        className="chat-text"
+                    />
                 </div>
-                <textarea
-                    onKeyDown={this.handleKeyDown}
-                    ref={elem => (this.chatText = elem)}
-                    className="chat-text"
-                />
             </div>
         );
     }
 }
 
 const mapStateToProps = state => {
-    console.log("messages mapstprops", state);
     return {
         messages: state.messages && state.messages
     };

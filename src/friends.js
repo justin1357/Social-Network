@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { getFriends, terminateFriend, acceptFriend } from "./actions";
 import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 class Friends extends React.Component {
     constructor() {
@@ -29,10 +30,12 @@ class Friends extends React.Component {
                     }
                     return (
                         <div key={friend.id} className="friends">
-                            <img
-                                src={friend.image || "/default.jpg"}
-                                className="main-profile-pic"
-                            />
+                            <Link to={`/user/${friend.id}`}>
+                                <img
+                                    src={friend.image || "/default.jpg"}
+                                    className="main-profile-pic"
+                                />
+                            </Link>
                             <p>
                                 {friend.first} {friend.last}
                             </p>
@@ -56,10 +59,12 @@ class Friends extends React.Component {
                 {pending.map(pender => {
                     return (
                         <div key={pender.id} className="friends">
-                            <img
-                                src={pender.image || "/default.jpg"}
-                                className="main-profile-pic"
-                            />
+                            <Link to={`/user/${pender.id}`}>
+                                <img
+                                    src={pender.image || "/default.jpg"}
+                                    className="main-profile-pic"
+                                />
+                            </Link>
                             <p>
                                 {pender.first} {pender.last}
                             </p>

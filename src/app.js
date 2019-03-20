@@ -55,12 +55,15 @@ export default class App extends React.Component {
                                 <Container>
                                     <div id="jimbo">
                                         <h1 className="text-dark jimbotext">
-                                            Social Network For you!!!
+                                            Spiced Social Network!!!
                                         </h1>
                                         <p className="text-dark jimbotext">
                                             From the creators of the Petition
                                             Project, we give you our newest
-                                            creation. A social network for React
+                                            creation.
+                                        </p>
+                                        <p className="text-dark jimbotext">
+                                            A social network for React
                                             education.
                                         </p>
                                     </div>
