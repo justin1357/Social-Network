@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getSocket } from "./socket";
-import { getLastMessages } from "./actions";
 
 class Chat extends React.Component {
     handleKeyDown(e) {
@@ -14,15 +13,16 @@ class Chat extends React.Component {
     // }
     componentDidUpdate() {
         // this.chatContainer.scrollTop = "100px";
+        this.chatText.value = null;
     }
 
     render() {
-        console.log("props in chat.js", this.props.messages);
+        console.log("props in chat.js", this.props);
         let messages = this.props.messages;
         if (!messages) {
             return null;
         }
-        messages = messages.reverse();
+
         console.log("prop messages", messages);
         return (
             <div className="container">
@@ -34,7 +34,7 @@ class Chat extends React.Component {
                     {messages.map(message => {
                         console.log("message in map", message);
                         return (
-                            <div key={message}>
+                            <div key={message.message}>
                                 <p>
                                     {message.first} {message.last}:{" "}
                                     {message.message}
@@ -45,6 +45,7 @@ class Chat extends React.Component {
                 </div>
                 <textarea
                     onKeyDown={this.handleKeyDown}
+                    ref={elem => (this.chatText = elem)}
                     className="chat-text"
                 />
             </div>
@@ -54,9 +55,8 @@ class Chat extends React.Component {
 
 const mapStateToProps = state => {
     console.log("messages mapstprops", state);
-
     return {
-        messages: state.messages && state.messages.messages
+        messages: state.messages && state.messages
     };
 };
 

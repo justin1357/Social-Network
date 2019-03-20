@@ -62,3 +62,11 @@ export async function getLastMessages(data) {
         messages: data
     };
 }
+
+export async function addnewMessage(data) {
+    console.log("data message in actions.js", data);
+    return {
+        type: "NEW_MESSAGE",
+        messages: data
+    };
+}

@@ -240,6 +240,7 @@ server.listen(8080, function() {
 });
 ///////////////////////////////
 const onlineUsers = {};
+
 io.on("connection", function(socket) {
     console.log(`socket with the id ${socket.id} is now connected`);
     const userId = socket.request.session.userId;
@@ -292,22 +293,24 @@ io.on("connection", function(socket) {
     });
 
     console.log(onlineUsers);
+
     socket.on("newChatMessage", data => {
-        console.log("data from message", data, userId);
-        const message = {};
+        let messageId;
         db.addNewMessage(data, userId)
             .then(data => {
                 console.log("success");
-                message.concat(data.rows);
-                console.log(message);
+                messageId = data.rows[0].id;
+                // console.log(messageId);
             })
-            .catch(err => {
-                console.log("err in new message", err);
-            });
-        db.getUser(userId)
-            .then(data => {
-                // console.log(data);
+            .then(() => {
+                db.getUserLastMessage(messageId).then(data => {
+                    console.log("get last message", data);
+                    io.emit("newMessage", {
+                        messages: data.rows[0]
+                    });
+                });
             })
+
             .catch(err => {
                 console.log("err in user info", err);
             });

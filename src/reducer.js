@@ -58,10 +58,18 @@ export default function reducer(state = {}, action) {
         };
     }
     if (action.type == "LAST_MESSAGES") {
-        return {
-            ...state,
-            messages: action.messages
-        };
+        console.log("action.message in reduecer.js 1", action, "state", state);
+        state = Object.assign({}, state, {
+            messages: action.messages && action.messages.messages.reverse()
+        });
+    }
+    if (action.type == "NEW_MESSAGE") {
+        console.log("action.message in reduecer.js 2", action, "state", state);
+        state = Object.assign({}, state, {
+            messages:
+                state.messages &&
+                state.messages.concat(action.messages.messages)
+        });
     }
 
     console.log("State in reducer", state);

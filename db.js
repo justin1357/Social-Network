@@ -117,3 +117,15 @@ module.exports.getLastMessages = function getLastMessages() {
     ORDER BY chat.id DESC
     LIMIT 10`);
 };
+
+module.exports.getUserLastMessage = function getUserLastMessage(id) {
+    return db.query(
+        `SELECT users.first, users.last, users.id, chat.message, chat.created_at
+    FROM users
+    JOIN chat
+    ON (chat.sender = users.id)
+    WHERE chat.id = $1
+    `,
+        [id]
+    );
+};
