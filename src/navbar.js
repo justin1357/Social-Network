@@ -21,7 +21,7 @@ export default class CustomNavbar extends React.Component {
                 .then(data => {
                     console.log(data);
                     this.setState({
-                        data: data.data.rows
+                        data: data.data
                     });
                     console.log("nav state", this.state);
                 });
@@ -40,7 +40,13 @@ export default class CustomNavbar extends React.Component {
 
     render() {
         return (
-            <Navbar bg="dark" variant="dark" className="nav">
+            <Navbar
+                bg="dark"
+                variant="dark"
+                className="nav"
+                collapseOnSelect
+                expand="lg"
+            >
                 <Link to="/">
                     <ProfilePic
                         className="float-right"
@@ -53,7 +59,7 @@ export default class CustomNavbar extends React.Component {
                 </Link>
                 <Nav className="mr-auto" />
                 <Navbar.Toggle />
-                <Navbar.Collapse>
+                <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav>
                         <Link
                             to="/friends"
@@ -75,42 +81,44 @@ export default class CustomNavbar extends React.Component {
                         </Link>
                     </Nav>
                 </Navbar.Collapse>
+                <Navbar.Collapse className="justify-content-end">
+                    {!!this.state.data && (
+                        <div id="results">
+                            {this.state.data.map(item => {
+                                return (
+                                    <Link to={`/user/${item.id}`} key={item.id}>
+                                        <div
+                                            className="result"
+                                            onClick={this.handleClick}
+                                        >
+                                            <img
+                                                src={
+                                                    item.image || "/default.jpg"
+                                                }
+                                                alt="search profile pic"
+                                                className="mini-image"
+                                            />
+                                            <p className="text-dark list-item">
+                                                {item.first} {item.last}
+                                            </p>
+                                        </div>
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                    )}
 
-                {!!this.state.data && (
-                    <div id="results">
-                        {this.state.data.map(item => {
-                            return (
-                                <Link to={`/user/${item.id}`} key={item.id}>
-                                    <div
-                                        className="result"
-                                        onClick={this.handleClick}
-                                    >
-                                        <img
-                                            src={item.image || "/default.jpg"}
-                                            alt="search profile pic"
-                                            className="mini-image"
-                                        />
-                                        <p className="text-dark list-item">
-                                            {item.first}
-                                        </p>
-                                    </div>
-                                </Link>
-                            );
-                        })}
-                    </div>
-                )}
-                <Form inline className="form">
-                    <FormControl
-                        type="text"
-                        placeholder="Search"
-                        className="mr-sm-2"
-                        id="input"
-                        ref={elem => (this.input = elem)}
-                        onChange={this.handleInput}
-                    />
-
-                    <Button variant="outline-info">Search</Button>
-                </Form>
+                    <Form inline className="form">
+                        <FormControl
+                            type="text"
+                            placeholder="Search"
+                            className="mr-sm-2 outline-info"
+                            id="input"
+                            ref={elem => (this.input = elem)}
+                            onChange={this.handleInput}
+                        />
+                    </Form>
+                </Navbar.Collapse>
             </Navbar>
         );
     }

@@ -36,7 +36,7 @@ export default function reducer(state = {}, action) {
     }
     if (action.type == "GET_OTHERPROFILE") {
         state = Object.assign({}, state, {
-            user: action.user
+            otherProfile: action.user
         });
     }
     if (action.type == "ONLINE_USERS") {
