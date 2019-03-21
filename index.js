@@ -230,6 +230,32 @@ app.post("/inc-search", (req, res) => {
             console.log("err in incSearch", err);
         });
 });
+app.post("/add-post", (req, res) => {
+    let postId;
+    db.post(req.body.post, req.session.userId)
+        .then(data => {
+            console.log(data);
+            postId = data.rows[0].id;
+        })
+        .then(() => {
+            db.getAddedPost(postId).then(data => {
+                res.json(data);
+            });
+        })
+        .catch(err => {
+            console.log("err in adding posts", err);
+        });
+});
+app.get("/get-posts", (req, res) => {
+    db.getPosts(req.session.userId).then(data => {
+        res.json(data);
+    });
+});
+app.get("/get-otherprofile-posts/:id", (req, res) => {
+    db.getPosts(req.params.id).then(data => {
+        res.json(data);
+    });
+});
 //////////////////////////////
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {

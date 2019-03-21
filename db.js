@@ -124,14 +124,47 @@ module.exports.getUserLastMessage = function getUserLastMessage(id) {
     FROM users
     JOIN chat
     ON (chat.sender = users.id)
-    WHERE chat.id = $1
-    `,
+    WHERE chat.id = $1`,
         [id]
     );
 };
 
 module.exports.incSearch = function incSearch(val) {
-    return db.query(`SELECT * FROM users WHERE first ILIKE '%' || $1 || '%' `, [
-        val
-    ]);
+    return db.query(
+        `SELECT * FROM users WHERE first ILIKE '%' || $1 || '%'
+        LIMIT 4`,
+        [val]
+    );
+};
+
+module.exports.post = function postTextVal(post, id) {
+    return db.query(
+        `INSERT INTO posts (post, posted_by)
+        VALUES($1, $2) RETURNING *`,
+        [post, id]
+    );
+};
+
+module.exports.getPosts = function getPosts(id) {
+    return db.query(
+        `SELECT posts.post, users.first, users.last, posts.id
+        FROM posts
+        JOIN users
+        ON (posts.posted_by = users.id)
+        WHERE posted_by=$1
+        ORDER BY posts.id DESC
+        LIMIT 10`,
+        [id]
+    );
+};
+
+module.exports.getAddedPost = function getAddedPost(id) {
+    return db.query(
+        `SELECT posts.post, users.first, users.last, posts.id
+        FROM posts
+        JOIN users
+        ON (posts.posted_by = users.id)
+        WHERE posts.id=$1`,
+        [id]
+    );
 };

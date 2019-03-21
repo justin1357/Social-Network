@@ -85,7 +85,16 @@ export default class App extends React.Component {
                                 )}
                             />
 
-                            <Route path="/user/:id" component={OtherProfile} />
+                            <Route
+                                path="/user/:id"
+                                render={props => (
+                                    <OtherProfile
+                                        key={props.match.url}
+                                        match={props.match}
+                                        history={props.history}
+                                    />
+                                )}
+                            />
                             <Route path="/friends" component={Friends} />
                             <Route path="/online" component={Online} />
                             <Route path="/chat" component={Chat} />

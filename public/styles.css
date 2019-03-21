@@ -127,6 +127,7 @@ button:hover {
 }
 textarea {
     width: 80%;
+    color: black;
 }
 #results {
     position: absolute;
@@ -147,13 +148,16 @@ textarea {
     position: relative;
 }
 .mini-image {
-    max-height: 25px;
-    max-width: 25px;
+    max-height: 35px;
+    max-width: 35px;
     margin-left: 15px;
 }
 .list-item {
     display: inline-block;
     margin-left: 20px;
+}
+div.card {
+    max-width: 200px;
 }
 @media screen and (max-width: 992px) {
     #results {
@@ -165,4 +169,29 @@ textarea {
     .friends-link {
         margin-left: 0;
     }
+}
+div.row {
+    margin-right: 0;
+    margin-left: 0;
+}
+.post-box {
+    width: 80%;
+    height: auto;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 20px;
+    margin: 10px;
+    margin-left: 0;
+    border-radius: 0.3rem;
+}
+p.post-box {
+    font-weight: 500;
+}
+.creator {
+    font-size: 12px;
+}
+.post-text {
+    font-size: 20px;
+}
+.post-here {
+    font-family: "Lora", serif;
 }

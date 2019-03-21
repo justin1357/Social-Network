@@ -3,7 +3,7 @@ import ProfilePic from "./profilepic";
 import Navbar from "react-bootstrap/Navbar";
 import axios from "./axios";
 import { Link } from "react-router-dom";
-import { Nav, Form, FormControl, Button } from "react-bootstrap";
+import { Nav, Form, FormControl } from "react-bootstrap";
 
 export default class CustomNavbar extends React.Component {
     constructor(props) {
