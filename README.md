@@ -10,3 +10,6 @@ Within this app, users can:
 - View posts from other users
 - Delete current friends, terminate pending requests and accept requests
 
+![Social](CaptureSocialNetwork.PNG)
+
+![Social](CaptureSocialNetwork2.PNG)
