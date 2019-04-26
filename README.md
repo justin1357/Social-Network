@@ -4,7 +4,7 @@ This is a social Network built using React.js, Socket IO and Redux.
 
 Within this app, users can:
 - Publicly chat
-- Search for other users database via an incremental search tab
+- Search for other users via an incremental search tab
 - Friend each other
 - Post messages to their own wall
 - View posts from other users
